@@ -244,25 +244,31 @@ main {
 /* PHOTO CARDS */
 .photo-list {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 8px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 6px;
 }
 
 .photo-card {
   background: var(--paper);
   border-radius: 8px;
-  padding: 10px 12px;
+  padding: 10px 10px 10px 12px;
   display: flex;
-  gap: 12px;
-  align-items: flex-start;
+  flex-direction: column;
+  gap: 6px;
   border-left: 3px solid var(--cat-color);
 }
 
+.photo-card-head {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
 .photo-icon {
-  width: 36px;
-  height: 36px;
+  width: 30px;
+  height: 30px;
   background: var(--cat-color);
-  border-radius: 6px;
+  border-radius: 5px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -270,8 +276,8 @@ main {
 }
 
 .photo-icon svg {
-  width: 22px;
-  height: 22px;
+  width: 18px;
+  height: 18px;
   fill: white;
 }
 
@@ -279,22 +285,35 @@ main {
 
 .photo-title {
   font-family: 'Archivo', sans-serif;
-  font-size: 13px;
+  font-size: 11.5px;
   font-weight: 800;
   color: var(--ink);
-  line-height: 1.2;
-  margin-bottom: 3px;
+  line-height: 1.15;
 }
 
 .photo-rules {
   font-family: 'Inter', sans-serif;
-  font-size: 11.5px;
+  font-size: 10.5px;
   color: var(--ink-dim);
-  line-height: 1.4;
+  line-height: 1.35;
 }
 
 .photo-rules .rule { display: block; }
 .photo-rules .rule + .rule { margin-top: 2px; }
+
+/* Long-title photo cards span full row */
+.photo-card.wide {
+  grid-column: 1 / -1;
+}
+
+@media (min-width: 500px) {
+  .photo-list {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .photo-card.wide {
+    grid-column: span 2;
+  }
+}
 
 /* QUICK NAV */
 .quick-nav {
@@ -665,54 +684,54 @@ footer .dot {
       <div class="sub-label">All Games</div>
       <div class="photo-list">
         <div class="photo-card">
-          <div class="photo-icon"><svg><use href="#i-tree"/></svg></div>
-          <div class="photo-content">
+          <div class="photo-card-head">
+            <div class="photo-icon"><svg><use href="#i-tree"/></svg></div>
             <div class="photo-title">A Tree</div>
-            <div class="photo-rules"><span class="rule">Must include the entire tree.</span></div>
           </div>
+          <div class="photo-rules"><span class="rule">Must include the entire tree.</span></div>
         </div>
         <div class="photo-card">
-          <div class="photo-icon"><svg><use href="#i-sky"/></svg></div>
-          <div class="photo-content">
+          <div class="photo-card-head">
+            <div class="photo-icon"><svg><use href="#i-sky"/></svg></div>
             <div class="photo-title">The Sky</div>
-            <div class="photo-rules"><span class="rule">Place phone on ground, shoot directly up.</span></div>
           </div>
+          <div class="photo-rules"><span class="rule">Place phone on ground, shoot directly up.</span></div>
         </div>
         <div class="photo-card">
-          <div class="photo-icon"><svg><use href="#i-selfie"/></svg></div>
-          <div class="photo-content">
+          <div class="photo-card-head">
+            <div class="photo-icon"><svg><use href="#i-selfie"/></svg></div>
             <div class="photo-title">You</div>
-            <div class="photo-rules"><span class="rule">Selfie mode. Arm parallel to the ground, fully extended.</span></div>
           </div>
+          <div class="photo-rules"><span class="rule">Selfie mode. Arm parallel to the ground, fully extended.</span></div>
         </div>
         <div class="photo-card">
-          <div class="photo-icon"><svg><use href="#i-wide-street"/></svg></div>
-          <div class="photo-content">
+          <div class="photo-card-head">
+            <div class="photo-icon"><svg><use href="#i-wide-street"/></svg></div>
             <div class="photo-title">Widest Street</div>
-            <div class="photo-rules"><span class="rule">Must include both sides of the street.</span></div>
           </div>
+          <div class="photo-rules"><span class="rule">Must include both sides of the street.</span></div>
         </div>
-        <div class="photo-card">
-          <div class="photo-icon"><svg><use href="#i-tall-structure"/></svg></div>
-          <div class="photo-content">
+        <div class="photo-card wide">
+          <div class="photo-card-head">
+            <div class="photo-icon"><svg><use href="#i-tall-structure"/></svg></div>
             <div class="photo-title">Tallest Structure in Your Sightline</div>
-            <div class="photo-rules">
+          </div>
+          <div class="photo-rules">
               <span class="rule">Tallest from your current perspective/sightline.</span>
               <span class="rule">Must include top and both sides.</span>
               <span class="rule">The top must be in the top ⅓ of the frame.</span>
             </div>
-          </div>
         </div>
-        <div class="photo-card">
-          <div class="photo-icon"><svg><use href="#i-building-station"/></svg></div>
-          <div class="photo-content">
+        <div class="photo-card wide">
+          <div class="photo-card-head">
+            <div class="photo-icon"><svg><use href="#i-building-station"/></svg></div>
             <div class="photo-title">Any Building Visible from Station</div>
-            <div class="photo-rules">
+          </div>
+          <div class="photo-rules">
               <span class="rule">Must stand directly outside transit station entrance.</span>
               <span class="rule">If multiple entrances, you may choose.</span>
               <span class="rule">Must include roof, both sides, top in top ⅓ of frame.</span>
             </div>
-          </div>
         </div>
       </div>
     </div>
@@ -720,78 +739,78 @@ footer .dot {
     <div class="subsection">
       <div class="sub-label">Medium Add-ons · 10 min</div>
       <div class="photo-list">
-        <div class="photo-card">
-          <div class="photo-icon"><svg><use href="#i-tallest-building"/></svg></div>
-          <div class="photo-content">
+        <div class="photo-card wide">
+          <div class="photo-card-head">
+            <div class="photo-icon"><svg><use href="#i-tallest-building"/></svg></div>
             <div class="photo-title">Tallest Building Visible from Station</div>
-            <div class="photo-rules">
+          </div>
+          <div class="photo-rules">
               <span class="rule">Tallest from your perspective/sightline.</span>
               <span class="rule">Must stand directly outside transit station entrance.</span>
               <span class="rule">If multiple entrances, you may choose.</span>
               <span class="rule">Must include roof, both sides, top in top ⅓ of frame.</span>
             </div>
-          </div>
         </div>
         <div class="photo-card">
-          <div class="photo-icon"><svg><use href="#i-trace-street"/></svg></div>
-          <div class="photo-content">
+          <div class="photo-card-head">
+            <div class="photo-icon"><svg><use href="#i-trace-street"/></svg></div>
             <div class="photo-title">Trace Nearest Street/Path</div>
-            <div class="photo-rules">
+          </div>
+          <div class="photo-rules">
               <span class="rule">Street/path must be visible on mapping app.</span>
               <span class="rule">Trace intersection to intersection.</span>
             </div>
-          </div>
         </div>
         <div class="photo-card">
-          <div class="photo-icon"><svg><use href="#i-two-buildings"/></svg></div>
-          <div class="photo-content">
+          <div class="photo-card-head">
+            <div class="photo-icon"><svg><use href="#i-two-buildings"/></svg></div>
             <div class="photo-title">Two Buildings</div>
-            <div class="photo-rules"><span class="rule">Must include bottom and up to four stories.</span></div>
           </div>
+          <div class="photo-rules"><span class="rule">Must include bottom and up to four stories.</span></div>
         </div>
         <div class="photo-card">
-          <div class="photo-icon"><svg><use href="#i-restaurant"/></svg></div>
-          <div class="photo-content">
+          <div class="photo-card-head">
+            <div class="photo-icon"><svg><use href="#i-restaurant"/></svg></div>
             <div class="photo-title">Restaurant Interior</div>
-            <div class="photo-rules">
+          </div>
+          <div class="photo-rules">
               <span class="rule">No zoom.</span>
               <span class="rule">Take the picture through the window from outside the restaurant.</span>
             </div>
-          </div>
         </div>
         <div class="photo-card">
-          <div class="photo-icon"><svg><use href="#i-train-platform"/></svg></div>
-          <div class="photo-content">
+          <div class="photo-card-head">
+            <div class="photo-icon"><svg><use href="#i-train-platform"/></svg></div>
             <div class="photo-title">Train Platform</div>
-            <div class="photo-rules"><span class="rule">Must include a 2 m × 2 m section with three distinct elements.</span></div>
           </div>
+          <div class="photo-rules"><span class="rule">Must include a 2 m × 2 m section with three distinct elements.</span></div>
         </div>
         <div class="photo-card">
-          <div class="photo-icon"><svg><use href="#i-park"/></svg></div>
-          <div class="photo-content">
+          <div class="photo-card-head">
+            <div class="photo-icon"><svg><use href="#i-park"/></svg></div>
             <div class="photo-title">Park</div>
-            <div class="photo-rules">
+          </div>
+          <div class="photo-rules">
               <span class="rule">No zoom, phone perpendicular to ground.</span>
               <span class="rule">Must stand 2 m from any obstruction.</span>
             </div>
-          </div>
         </div>
         <div class="photo-card">
-          <div class="photo-icon"><svg><use href="#i-grocery"/></svg></div>
-          <div class="photo-content">
+          <div class="photo-card-head">
+            <div class="photo-icon"><svg><use href="#i-grocery"/></svg></div>
             <div class="photo-title">Grocery Store Aisle</div>
-            <div class="photo-rules">
+          </div>
+          <div class="photo-rules">
               <span class="rule">No zoom.</span>
               <span class="rule">Stand at the end of the aisle, shoot directly down.</span>
             </div>
-          </div>
         </div>
         <div class="photo-card">
-          <div class="photo-icon"><svg><use href="#i-worship"/></svg></div>
-          <div class="photo-content">
+          <div class="photo-card-head">
+            <div class="photo-icon"><svg><use href="#i-worship"/></svg></div>
             <div class="photo-title">Place of Worship</div>
-            <div class="photo-rules"><span class="rule">Must include a 2 m × 2 m section with three distinct elements.</span></div>
           </div>
+          <div class="photo-rules"><span class="rule">Must include a 2 m × 2 m section with three distinct elements.</span></div>
         </div>
       </div>
     </div>
