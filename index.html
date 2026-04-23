@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#e63329">
+<title>Jet Lag · Hide + Seek · Question Menu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --red: #e63329;
+  --paper: #f3f1ee;
+  --paper-card: #ffffff;
+  --ink: #1a1a1a;
+  --ink-dim: #555;
+  --ink-faint: #888;
+  --rule: #e0ddd6;
+
+  /* Category colors — matched to Jet Lag card */
+  --matching: #1f2536;
+  --measuring: #2ba049;
+  --thermometer: #f4b942;
+  --radar: #e87a2c;
+  --tentacles: #7e5fa8;
+  --photos: #7aadc9;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  min-height: 100vh;
+  line-height: 1.4;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* HEADER BAR */
+.top-bar {
+  background: var(--red);
+  color: white;
+  padding: 14px 16px;
+  text-align: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.top-bar h1 {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 18px;
+  letter-spacing: 0.22em;
+  line-height: 1;
+}
+
+.top-bar-sub {
+  font-family: 'Archivo', sans-serif;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  opacity: 0.85;
+  margin-top: 4px;
+  text-transform: uppercase;
+}
+
+main {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 16px 14px 40px;
+}
+
+.category {
+  background: var(--paper-card);
+  border-radius: 12px;
+  padding: 16px 16px 18px;
+  margin-bottom: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 1px 0 rgba(0,0,0,0.02);
+}
+
+.cat-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 10px;
+  border-bottom: 3px solid var(--cat-color);
+  margin-bottom: 14px;
+}
+
+.cat-icon {
+  width: 44px;
+  height: 44px;
+  background: var(--cat-color);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: white;
+}
+
+.cat-icon svg {
+  width: 26px;
+  height: 26px;
+  fill: white;
+}
+
+.cat-title-block {
+  flex: 1;
+  min-width: 0;
+}
+
+.cat-title {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 20px;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  line-height: 1;
+  color: var(--ink);
+}
+
+.cat-meta {
+  font-family: 'Archivo', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: var(--ink-dim);
+  text-transform: uppercase;
+  margin-top: 5px;
+}
+
+.cat-prompt {
+  font-family: 'Inter', sans-serif;
+  font-size: 12.5px;
+  color: var(--ink-dim);
+  font-style: italic;
+  margin-bottom: 14px;
+  padding: 8px 10px;
+  background: var(--paper);
+  border-radius: 6px;
+  border-left: 3px solid var(--cat-color);
+  line-height: 1.4;
+}
+
+.cat-prompt strong {
+  font-style: normal;
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.subsection {
+  margin-bottom: 14px;
+}
+
+.subsection:last-child {
+  margin-bottom: 0;
+}
+
+.sub-label {
+  font-family: 'Archivo', sans-serif;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  color: var(--cat-color);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.sub-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, currentColor 0%, transparent 100%);
+  opacity: 0.3;
+}
+
+.tile-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(72px, 1fr));
+  gap: 5px;
+}
+
+.tile {
+  background: var(--cat-color);
+  color: white;
+  aspect-ratio: 1;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 3px;
+  text-align: center;
+  gap: 2px;
+  transition: transform 0.15s;
+  min-height: 72px;
+}
+
+.tile:active { transform: scale(0.94); }
+
+.tile svg {
+  width: 22px;
+  height: 22px;
+  fill: white;
+}
+
+.tile-label {
+  font-family: 'Archivo', sans-serif;
+  font-size: 8.5px;
+  font-weight: 700;
+  line-height: 1.05;
+  color: white;
+  word-break: break-word;
+  hyphens: auto;
+  letter-spacing: -0.01em;
+}
+
+.tile-distance {
+  font-family: 'Archivo', sans-serif;
+  font-size: 7.5px;
+  font-weight: 600;
+  opacity: 0.85;
+  margin-top: 0;
+}
+
+.tile.distance-only {
+  aspect-ratio: 1.3;
+  min-height: 56px;
+}
+
+.tile.distance-only .tile-label {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 13px;
+}
+
+/* PHOTO CARDS */
+.photo-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+}
+
+.photo-card {
+  background: var(--paper);
+  border-radius: 8px;
+  padding: 10px 12px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  border-left: 3px solid var(--cat-color);
+}
+
+.photo-icon {
+  width: 36px;
+  height: 36px;
+  background: var(--cat-color);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.photo-icon svg {
+  width: 22px;
+  height: 22px;
+  fill: white;
+}
+
+.photo-content { flex: 1; min-width: 0; }
+
+.photo-title {
+  font-family: 'Archivo', sans-serif;
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--ink);
+  line-height: 1.2;
+  margin-bottom: 3px;
+}
+
+.photo-rules {
+  font-family: 'Inter', sans-serif;
+  font-size: 11.5px;
+  color: var(--ink-dim);
+  line-height: 1.4;
+}
+
+.photo-rules .rule { display: block; }
+.photo-rules .rule + .rule { margin-top: 2px; }
+
+/* QUICK NAV */
+.quick-nav {
+  position: fixed;
+  right: 10px;
+  bottom: 14px;
+  background: white;
+  border-radius: 28px;
+  padding: 5px;
+  display: flex;
+  gap: 4px;
+  z-index: 90;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.15), 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.quick-nav-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: var(--cat-color);
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.15s;
+  padding: 0;
+}
+
+.quick-nav-btn svg {
+  width: 18px;
+  height: 18px;
+  fill: white;
+}
+
+.quick-nav-btn:active { transform: scale(0.88); }
+
+footer {
+  text-align: center;
+  padding: 20px 16px 10px;
+  font-family: 'Archivo', sans-serif;
+  font-size: 9px;
+  color: var(--ink-faint);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+footer .dot {
+  display: inline-block;
+  width: 4px;
+  height: 4px;
+  background: var(--red);
+  border-radius: 50%;
+  margin: 0 6px;
+  vertical-align: middle;
+}
+
+@media (min-width: 500px) {
+  .tile svg { width: 26px; height: 26px; }
+  .tile-label { font-size: 9.5px; }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.category { animation: fadeUp 0.35s ease-out backwards; }
+.category:nth-child(1) { animation-delay: 0.05s; }
+.category:nth-child(2) { animation-delay: 0.1s; }
+.category:nth-child(3) { animation-delay: 0.15s; }
+.category:nth-child(4) { animation-delay: 0.2s; }
+.category:nth-child(5) { animation-delay: 0.25s; }
+.category:nth-child(6) { animation-delay: 0.3s; }
+</style>
+</head>
+<body>
+
+<!-- SVG ICON LIBRARY -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <!-- Category icons -->
+    <symbol id="i-matching" viewBox="0 0 24 24">
+      <circle cx="7" cy="8" r="2.5" fill="none" stroke="currentColor" stroke-width="2"/>
+      <circle cx="17" cy="16" r="2.5" fill="none" stroke="currentColor" stroke-width="2"/>
+      <line x1="9" y1="9.5" x2="15" y2="14.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="i-measuring" viewBox="0 0 24 24">
+      <path d="M12 2l3 3h-2v5h5V8l3 3-3 3v-2h-5v5h2l-3 3-3-3h2v-5H6v2l-3-3 3-3v2h5V5H9l3-3z"/>
+    </symbol>
+    <symbol id="i-thermometer" viewBox="0 0 24 24">
+      <path d="M12 2a3 3 0 00-3 3v9.17a5 5 0 106 0V5a3 3 0 00-3-3zm0 2a1 1 0 011 1v10.1a3 3 0 11-2 0V5a1 1 0 011-1z"/>
+      <circle cx="12" cy="17" r="2"/>
+    </symbol>
+    <symbol id="i-radar" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.5"/>
+      <circle cx="12" cy="12" r="5.5" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.7"/>
+      <circle cx="12" cy="12" r="2" fill="currentColor"/>
+      <path d="M12 12 L18 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="i-tentacles" viewBox="0 0 24 24">
+      <circle cx="12" cy="8" r="3"/>
+      <path d="M9 10 C7 13, 5 14, 4 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <path d="M12 11 C11 15, 11 17, 12 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <path d="M15 10 C17 13, 19 14, 20 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="i-photos" viewBox="0 0 24 24">
+      <path d="M9 3l-2 2H4a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V7a2 2 0 00-2-2h-3l-2-2H9zm3 5a5 5 0 110 10 5 5 0 010-10zm0 2a3 3 0 100 6 3 3 0 000-6z"/>
+    </symbol>
+
+    <!-- Item icons -->
+    <symbol id="i-airport" viewBox="0 0 24 24"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 00-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></symbol>
+    <symbol id="i-transit-line" viewBox="0 0 24 24"><path d="M4 6h16v2H4zm0 10h16v2H4zm2-5h12v2H6z"/><circle cx="7" cy="12" r="1.5"/><circle cx="17" cy="12" r="1.5"/></symbol>
+    <symbol id="i-station-name" viewBox="0 0 24 24"><path d="M3 4h4v2H3zm6 0h4v2H9zm6 0h6v2h-6zM3 10h18v2H3zM3 16h10v2H3zm12 0h6v2h-6z"/></symbol>
+    <symbol id="i-street" viewBox="0 0 24 24"><path d="M10 2v20h4V2h-4zm1 3h2v2h-2zm0 4h2v2h-2zm0 4h2v2h-2zm0 4h2v2h-2z"/></symbol>
+    <symbol id="i-admin-div" viewBox="0 0 24 24"><path d="M5 4 L12 2 L19 5 L19 20 L12 22 L5 20 Z" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 2 L12 22" stroke="currentColor" stroke-width="1.5" stroke-dasharray="2,1.5"/></symbol>
+    <symbol id="i-mountain" viewBox="0 0 24 24"><path d="M3 20 L9 8 L13 14 L16 10 L21 20 Z"/></symbol>
+    <symbol id="i-landmass" viewBox="0 0 24 24"><path d="M4 8 C6 6, 10 6, 13 8 C16 10, 20 10, 20 14 C20 18, 16 19, 12 18 C8 17, 4 16, 4 12 Z"/></symbol>
+    <symbol id="i-park" viewBox="0 0 24 24"><path d="M12 2 L6 10 H9 L5 16 H10 V20 H14 V16 H19 L15 10 H18 Z"/></symbol>
+    <symbol id="i-amusement" viewBox="0 0 24 24"><circle cx="12" cy="12" r="7" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="2"/><path d="M12 5 L12 19 M5 12 L19 12" stroke="currentColor" stroke-width="1.5"/><path d="M7 7 L17 17 M17 7 L7 17" stroke="currentColor" stroke-width="1.5"/></symbol>
+    <symbol id="i-zoo" viewBox="0 0 24 24"><circle cx="8" cy="8" r="2"/><circle cx="16" cy="8" r="2"/><circle cx="6" cy="13" r="1.5"/><circle cx="18" cy="13" r="1.5"/><path d="M8 15 C8 19, 16 19, 16 15 C16 13, 14 12, 12 12 C10 12, 8 13, 8 15 Z"/></symbol>
+    <symbol id="i-aquarium" viewBox="0 0 24 24"><path d="M14 8 C10 8, 6 10, 4 12 C6 14, 10 16, 14 16 C16 16, 18 15, 20 13 L22 16 L22 8 L20 11 C18 9, 16 8, 14 8 Z"/><circle cx="16" cy="11.5" r="0.8" fill="white"/></symbol>
+    <symbol id="i-golf" viewBox="0 0 24 24"><path d="M10 2 L10 15 L18 10 Z"/><line x1="10" y1="2" x2="10" y2="22" stroke="currentColor" stroke-width="1.8"/><circle cx="10" cy="20" r="2"/></symbol>
+    <symbol id="i-museum" viewBox="0 0 24 24"><path d="M12 2 L2 7 L2 9 L22 9 L22 7 Z M4 11 L4 19 L6 19 L6 11 Z M10 11 L10 19 L12 19 L12 11 Z M14 11 L14 19 L16 19 L16 11 Z M18 11 L18 19 L20 19 L20 11 Z M2 20 L22 20 L22 22 L2 22 Z"/></symbol>
+    <symbol id="i-movie" viewBox="0 0 24 24"><path d="M3 5 L3 19 L21 19 L21 5 Z M5 7 L7 7 L7 9 L5 9 Z M5 11 L7 11 L7 13 L5 13 Z M5 15 L7 15 L7 17 L5 17 Z M17 7 L19 7 L19 9 L17 9 Z M17 11 L19 11 L19 13 L17 13 Z M17 15 L19 15 L19 17 L17 17 Z M9 8 L15 8 L15 16 L9 16 Z"/></symbol>
+    <symbol id="i-hospital" viewBox="0 0 24 24"><path d="M4 6 L4 22 L10 22 L10 16 L14 16 L14 22 L20 22 L20 6 Z M11 2 L13 2 L13 4 L15 4 L15 6 L13 6 L13 8 L11 8 L11 6 L9 6 L9 4 L11 4 Z"/></symbol>
+    <symbol id="i-library" viewBox="0 0 24 24"><path d="M4 3 L4 21 L7 21 L7 3 Z M9 3 L9 21 L12 21 L12 3 Z M14 4 L13 21 L16 22 L17 5 Z M18 5 L18 21 L21 21 L21 9 Z"/></symbol>
+    <symbol id="i-consulate" viewBox="0 0 24 24"><path d="M5 4 L5 20 L7 20 L7 13 L14 13 L13 10 L14 7 L7 7 L7 4 Z"/></symbol>
+    <symbol id="i-border" viewBox="0 0 24 24"><path d="M4 3 L4 21" stroke="currentColor" stroke-width="2.5" fill="none"/><path d="M6 6 L11 6 M6 9 L11 9 M6 12 L11 12 M6 15 L11 15 M6 18 L11 18" stroke="currentColor" stroke-width="1.5"/><path d="M14 6 L20 6 L20 20 L14 20 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="2,1.5"/></symbol>
+    <symbol id="i-sea" viewBox="0 0 24 24"><path d="M2 10 C5 8, 8 12, 12 10 C16 8, 19 12, 22 10 M2 14 C5 12, 8 16, 12 14 C16 12, 19 16, 22 14 M2 18 C5 16, 8 20, 12 18 C16 16, 19 20, 22 18" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
+    <symbol id="i-water" viewBox="0 0 24 24"><path d="M12 3 C8 8, 5 12, 5 15 A7 7 0 0 0 19 15 C19 12, 16 8, 12 3 Z"/></symbol>
+    <symbol id="i-coast" viewBox="0 0 24 24"><path d="M2 12 L10 12 L12 8 L14 12 L22 12 M2 16 C5 15, 8 17, 12 16 C16 15, 19 17, 22 16 M2 19 C5 18, 8 20, 12 19 C16 18, 19 20, 22 19" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
+    <symbol id="i-high-speed-train" viewBox="0 0 24 24"><path d="M3 16 L5 12 L8 10 L16 10 L20 13 L22 16 L3 16 Z M6 13 L8 13 L8 15 L6 15 Z M11 13 L17 13 L17 15 L11 15 Z"/><path d="M0 18 L3 17 M0 20 L4 19" stroke="currentColor" stroke-width="1.2"/></symbol>
+    <symbol id="i-rail-station" viewBox="0 0 24 24"><path d="M4 8 L4 18 L20 18 L20 8 Z M6 10 L18 10 L18 14 L6 14 Z"/><circle cx="9" cy="17" r="1.5"/><circle cx="15" cy="17" r="1.5"/><path d="M2 20 L22 20" stroke="currentColor" stroke-width="2"/></symbol>
+
+    <!-- Photo subject icons -->
+    <symbol id="i-tree" viewBox="0 0 24 24"><path d="M12 2 C8 6, 6 8, 6 11 C6 13, 7 14, 9 14 L10 14 L10 20 L14 20 L14 14 L15 14 C17 14, 18 13, 18 11 C18 8, 16 6, 12 2 Z"/></symbol>
+    <symbol id="i-sky" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2 L12 5 M12 19 L12 22 M2 12 L5 12 M19 12 L22 12 M5 5 L7 7 M17 17 L19 19 M5 19 L7 17 M17 7 L19 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-selfie" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 22 C4 17, 8 14, 12 14 C16 14, 20 17, 20 22 Z"/></symbol>
+    <symbol id="i-wide-street" viewBox="0 0 24 24"><path d="M4 2 L8 22 L16 22 L20 2 Z" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 4 L12 8 M12 10 L12 14 M12 16 L12 20" stroke="currentColor" stroke-width="2"/></symbol>
+    <symbol id="i-tall-structure" viewBox="0 0 24 24"><path d="M11 2 L13 2 L13 6 L14 6 L14 22 L10 22 L10 6 L11 6 Z"/></symbol>
+    <symbol id="i-building-station" viewBox="0 0 24 24"><path d="M6 4 L6 22 L10 22 L10 18 L14 18 L14 22 L18 22 L18 4 Z"/></symbol>
+    <symbol id="i-tallest-building" viewBox="0 0 24 24"><path d="M4 22 L4 14 L8 14 L8 10 L12 10 L12 6 L16 6 L16 2 L20 2 L20 22 Z"/></symbol>
+    <symbol id="i-trace-street" viewBox="0 0 24 24"><path d="M3 20 C6 20, 7 16, 10 16 C13 16, 14 10, 17 10 C19 10, 20 6, 22 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-dasharray="2,2"/><circle cx="3" cy="20" r="2"/><circle cx="22" cy="4" r="2"/></symbol>
+    <symbol id="i-two-buildings" viewBox="0 0 24 24"><path d="M3 22 L3 10 L11 10 L11 22 Z M13 22 L13 6 L21 6 L21 22 Z"/></symbol>
+    <symbol id="i-restaurant" viewBox="0 0 24 24"><path d="M6 2 L6 10 C6 11, 7 12, 8 12 L8 22 L10 22 L10 12 C11 12, 12 11, 12 10 L12 2 L10 2 L10 8 L9 8 L9 2 L7 2 L7 8 L6 8 Z M16 2 C14 2, 13 4, 13 8 C13 10, 14 11, 15 11 L15 22 L17 22 L17 11 C18 11, 19 10, 19 8 C19 4, 18 2, 16 2 Z"/></symbol>
+    <symbol id="i-train-platform" viewBox="0 0 24 24"><path d="M4 6 L4 14 L20 14 L20 6 Z M6 8 L11 8 L11 12 L6 12 Z M13 8 L18 8 L18 12 L13 12 Z"/><path d="M2 17 L22 17 L22 19 L2 19 Z"/><circle cx="8" cy="16" r="1"/><circle cx="16" cy="16" r="1"/></symbol>
+    <symbol id="i-grocery" viewBox="0 0 24 24"><path d="M3 4 L5 4 L7 16 L19 16 L21 6 L7 6" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="9" cy="20" r="1.5"/><circle cx="17" cy="20" r="1.5"/></symbol>
+    <symbol id="i-worship" viewBox="0 0 24 24"><path d="M11 2 L13 2 L13 6 L16 6 L16 8 L13 8 L13 14 L19 14 L19 22 L15 22 L15 18 L9 18 L9 22 L5 22 L5 14 L11 14 L11 8 L8 8 L8 6 L11 6 Z"/></symbol>
+  </defs>
+</svg>
+
+<header class="top-bar">
+  <h1>QUESTION MENU</h1>
+  <div class="top-bar-sub">Hide + Seek · Medium Game</div>
+</header>
+
+<main>
+
+  <!-- 1. MATCHING -->
+  <section class="category" id="cat-1" style="--cat-color: var(--matching);">
+    <div class="cat-head">
+      <div class="cat-icon"><svg><use href="#i-matching"/></svg></div>
+      <div class="cat-title-block">
+        <div class="cat-title">Matching</div>
+        <div class="cat-meta">Draw 3 · Pick 1 · 5 min</div>
+      </div>
+    </div>
+    <div class="cat-prompt">Is your nearest <strong>___</strong> the same as my nearest <strong>___</strong>?</div>
+
+    <div class="subsection">
+      <div class="sub-label">Transit</div>
+      <div class="tile-grid">
+        <div class="tile"><svg><use href="#i-airport"/></svg><div class="tile-label">Commercial Airport</div></div>
+        <div class="tile"><svg><use href="#i-transit-line"/></svg><div class="tile-label">Transit Line</div></div>
+        <div class="tile"><svg><use href="#i-station-name"/></svg><div class="tile-label">Station Name Length</div></div>
+        <div class="tile"><svg><use href="#i-street"/></svg><div class="tile-label">Street or Path</div></div>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <div class="sub-label">Administrative Divisions</div>
+      <div class="tile-grid">
+        <div class="tile"><svg><use href="#i-admin-div"/></svg><div class="tile-label">1st Admin Division</div></div>
+        <div class="tile"><svg><use href="#i-admin-div"/></svg><div class="tile-label">2nd Admin Division</div></div>
+        <div class="tile"><svg><use href="#i-admin-div"/></svg><div class="tile-label">3rd Admin Division</div></div>
+        <div class="tile"><svg><use href="#i-admin-div"/></svg><div class="tile-label">4th Admin Division</div></div>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <div class="sub-label">Natural</div>
+      <div class="tile-grid">
+        <div class="tile"><svg><use href="#i-mountain"/></svg><div class="tile-label">Mountain</div></div>
+        <div class="tile"><svg><use href="#i-landmass"/></svg><div class="tile-label">Landmass</div></div>
+        <div class="tile"><svg><use href="#i-park"/></svg><div class="tile-label">Park</div></div>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <div class="sub-label">Places of Interest</div>
+      <div class="tile-grid">
+        <div class="tile"><svg><use href="#i-amusement"/></svg><div class="tile-label">Amusement Park</div></div>
+        <div class="tile"><svg><use href="#i-zoo"/></svg><div class="tile-label">Zoo</div></div>
+        <div class="tile"><svg><use href="#i-aquarium"/></svg><div class="tile-label">Aquarium</div></div>
+        <div class="tile"><svg><use href="#i-golf"/></svg><div class="tile-label">Golf Course</div></div>
+        <div class="tile"><svg><use href="#i-museum"/></svg><div class="tile-label">Museum</div></div>
+        <div class="tile"><svg><use href="#i-movie"/></svg><div class="tile-label">Movie Theater</div></div>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <div class="sub-label">Public Utilities</div>
+      <div class="tile-grid">
+        <div class="tile"><svg><use href="#i-hospital"/></svg><div class="tile-label">Hospital</div></div>
+        <div class="tile"><svg><use href="#i-library"/></svg><div class="tile-label">Library</div></div>
+        <div class="tile"><svg><use href="#i-consulate"/></svg><div class="tile-label">Foreign Consulate</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. MEASURING -->
+  <section class="category" id="cat-2" style="--cat-color: var(--measuring);">
+    <div class="cat-head">
+      <div class="cat-icon"><svg><use href="#i-measuring"/></svg></div>
+      <div class="cat-title-block">
+        <div class="cat-title">Measuring</div>
+        <div class="cat-meta">Draw 3 · Pick 1 · 5 min</div>
+      </div>
+    </div>
+    <div class="cat-prompt">Compared to me, are you closer to or further from <strong>___</strong>?</div>
+
+    <div class="subsection">
+      <div class="sub-label">Transit</div>
+      <div class="tile-grid">
+        <div class="tile"><svg><use href="#i-airport"/></svg><div class="tile-label">Commercial Airport</div></div>
+        <div class="tile"><svg><use href="#i-high-speed-train"/></svg><div class="tile-label">High Speed Train Line</div></div>
+        <div class="tile"><svg><use href="#i-rail-station"/></svg><div class="tile-label">Rail Station</div></div>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <div class="sub-label">Borders</div>
+      <div class="tile-grid">
+        <div class="tile"><svg><use href="#i-border"/></svg><div class="tile-label">International Border</div></div>
+        <div class="tile"><svg><use href="#i-border"/></svg><div class="tile-label">1st Admin Div Border</div></div>
+        <div class="tile"><svg><use href="#i-border"/></svg><div class="tile-label">2nd Admin Div Border</div></div>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <div class="sub-label">Natural</div>
+      <div class="tile-grid">
+        <div class="tile"><svg><use href="#i-sea"/></svg><div class="tile-label">Sea Level</div></div>
+        <div class="tile"><svg><use href="#i-water"/></svg><div class="tile-label">Body of Water</div></div>
+        <div class="tile"><svg><use href="#i-coast"/></svg><div class="tile-label">Coastline</div></div>
+        <div class="tile"><svg><use href="#i-mountain"/></svg><div class="tile-label">Mountain</div></div>
+        <div class="tile"><svg><use href="#i-park"/></svg><div class="tile-label">Park</div></div>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <div class="sub-label">Places of Interest</div>
+      <div class="tile-grid">
+        <div class="tile"><svg><use href="#i-amusement"/></svg><div class="tile-label">Amusement Park</div></div>
+        <div class="tile"><svg><use href="#i-zoo"/></svg><div class="tile-label">Zoo</div></div>
+        <div class="tile"><svg><use href="#i-aquarium"/></svg><div class="tile-label">Aquarium</div></div>
+        <div class="tile"><svg><use href="#i-golf"/></svg><div class="tile-label">Golf Course</div></div>
+        <div class="tile"><svg><use href="#i-museum"/></svg><div class="tile-label">Museum</div></div>
+        <div class="tile"><svg><use href="#i-movie"/></svg><div class="tile-label">Movie Theater</div></div>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <div class="sub-label">Public Utilities</div>
+      <div class="tile-grid">
+        <div class="tile"><svg><use href="#i-hospital"/></svg><div class="tile-label">Hospital</div></div>
+        <div class="tile"><svg><use href="#i-library"/></svg><div class="tile-label">Library</div></div>
+        <div class="tile"><svg><use href="#i-consulate"/></svg><div class="tile-label">Foreign Consulate</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. THERMOMETER -->
+  <section class="category" id="cat-3" style="--cat-color: var(--thermometer);">
+    <div class="cat-head">
+      <div class="cat-icon"><svg><use href="#i-thermometer"/></svg></div>
+      <div class="cat-title-block">
+        <div class="cat-title">Thermometer</div>
+        <div class="cat-meta">Draw 2 · Pick 1 · 5 min</div>
+      </div>
+    </div>
+    <div class="cat-prompt">I've just traveled (at least) <strong>___</strong>. Am I hotter or colder?</div>
+
+    <div class="subsection">
+      <div class="sub-label">Distances</div>
+      <div class="tile-grid">
+        <div class="tile distance-only"><div class="tile-label">1 km</div></div>
+        <div class="tile distance-only"><div class="tile-label">5 km</div></div>
+        <div class="tile distance-only"><div class="tile-label">15 km</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. RADAR -->
+  <section class="category" id="cat-4" style="--cat-color: var(--radar);">
+    <div class="cat-head">
+      <div class="cat-icon"><svg><use href="#i-radar"/></svg></div>
+      <div class="cat-title-block">
+        <div class="cat-title">Radar</div>
+        <div class="cat-meta">Draw 2 · Pick 1 · 5 min</div>
+      </div>
+    </div>
+    <div class="cat-prompt">Are you within <strong>___</strong> of me?</div>
+
+    <div class="subsection">
+      <div class="sub-label">Distances</div>
+      <div class="tile-grid">
+        <div class="tile distance-only"><div class="tile-label">500 m</div></div>
+        <div class="tile distance-only"><div class="tile-label">1 km</div></div>
+        <div class="tile distance-only"><div class="tile-label">2 km</div></div>
+        <div class="tile distance-only"><div class="tile-label">5 km</div></div>
+        <div class="tile distance-only"><div class="tile-label">10 km</div></div>
+        <div class="tile distance-only"><div class="tile-label">15 km</div></div>
+        <div class="tile distance-only"><div class="tile-label">40 km</div></div>
+        <div class="tile distance-only"><div class="tile-label">80 km</div></div>
+        <div class="tile distance-only"><div class="tile-label">160 km</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. TENTACLES -->
+  <section class="category" id="cat-5" style="--cat-color: var(--tentacles);">
+    <div class="cat-head">
+      <div class="cat-icon"><svg><use href="#i-tentacles"/></svg></div>
+      <div class="cat-title-block">
+        <div class="cat-title">Tentacles</div>
+        <div class="cat-meta">Draw 4 · Pick 2 · 5 min</div>
+      </div>
+    </div>
+    <div class="cat-prompt">Of all the <strong>___</strong> within <strong>___</strong> of me, which are you closest to?</div>
+
+    <div class="subsection">
+      <div class="sub-label">Within 2 km</div>
+      <div class="tile-grid">
+        <div class="tile"><svg><use href="#i-museum"/></svg><div class="tile-label">Museums</div><div class="tile-distance">2 km</div></div>
+        <div class="tile"><svg><use href="#i-library"/></svg><div class="tile-label">Libraries</div><div class="tile-distance">2 km</div></div>
+        <div class="tile"><svg><use href="#i-movie"/></svg><div class="tile-label">Movie Theaters</div><div class="tile-distance">2 km</div></div>
+        <div class="tile"><svg><use href="#i-hospital"/></svg><div class="tile-label">Hospitals</div><div class="tile-distance">2 km</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. PHOTOS -->
+  <section class="category" id="cat-6" style="--cat-color: var(--photos);">
+    <div class="cat-head">
+      <div class="cat-icon"><svg><use href="#i-photos"/></svg></div>
+      <div class="cat-title-block">
+        <div class="cat-title">Photos</div>
+        <div class="cat-meta">Draw 1 · 10 min</div>
+      </div>
+    </div>
+    <div class="cat-prompt">Send a photo of <strong>___</strong>.</div>
+
+    <div class="subsection">
+      <div class="sub-label">All Games</div>
+      <div class="photo-list">
+        <div class="photo-card">
+          <div class="photo-icon"><svg><use href="#i-tree"/></svg></div>
+          <div class="photo-content">
+            <div class="photo-title">A Tree</div>
+            <div class="photo-rules"><span class="rule">Must include the entire tree.</span></div>
+          </div>
+        </div>
+        <div class="photo-card">
+          <div class="photo-icon"><svg><use href="#i-sky"/></svg></div>
+          <div class="photo-content">
+            <div class="photo-title">The Sky</div>
+            <div class="photo-rules"><span class="rule">Place phone on ground, shoot directly up.</span></div>
+          </div>
+        </div>
+        <div class="photo-card">
+          <div class="photo-icon"><svg><use href="#i-selfie"/></svg></div>
+          <div class="photo-content">
+            <div class="photo-title">You</div>
+            <div class="photo-rules"><span class="rule">Selfie mode. Arm parallel to the ground, fully extended.</span></div>
+          </div>
+        </div>
+        <div class="photo-card">
+          <div class="photo-icon"><svg><use href="#i-wide-street"/></svg></div>
+          <div class="photo-content">
+            <div class="photo-title">Widest Street</div>
+            <div class="photo-rules"><span class="rule">Must include both sides of the street.</span></div>
+          </div>
+        </div>
+        <div class="photo-card">
+          <div class="photo-icon"><svg><use href="#i-tall-structure"/></svg></div>
+          <div class="photo-content">
+            <div class="photo-title">Tallest Structure in Your Sightline</div>
+            <div class="photo-rules">
+              <span class="rule">Tallest from your current perspective/sightline.</span>
+              <span class="rule">Must include top and both sides.</span>
+              <span class="rule">The top must be in the top ⅓ of the frame.</span>
+            </div>
+          </div>
+        </div>
+        <div class="photo-card">
+          <div class="photo-icon"><svg><use href="#i-building-station"/></svg></div>
+          <div class="photo-content">
+            <div class="photo-title">Any Building Visible from Station</div>
+            <div class="photo-rules">
+              <span class="rule">Must stand directly outside transit station entrance.</span>
+              <span class="rule">If multiple entrances, you may choose.</span>
+              <span class="rule">Must include roof, both sides, top in top ⅓ of frame.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <div class="sub-label">Medium Add-ons · 10 min</div>
+      <div class="photo-list">
+        <div class="photo-card">
+          <div class="photo-icon"><svg><use href="#i-tallest-building"/></svg></div>
+          <div class="photo-content">
+            <div class="photo-title">Tallest Building Visible from Station</div>
+            <div class="photo-rules">
+              <span class="rule">Tallest from your perspective/sightline.</span>
+              <span class="rule">Must stand directly outside transit station entrance.</span>
+              <span class="rule">If multiple entrances, you may choose.</span>
+              <span class="rule">Must include roof, both sides, top in top ⅓ of frame.</span>
+            </div>
+          </div>
+        </div>
+        <div class="photo-card">
+          <div class="photo-icon"><svg><use href="#i-trace-street"/></svg></div>
+          <div class="photo-content">
+            <div class="photo-title">Trace Nearest Street/Path</div>
+            <div class="photo-rules">
+              <span class="rule">Street/path must be visible on mapping app.</span>
+              <span class="rule">Trace intersection to intersection.</span>
+            </div>
+          </div>
+        </div>
+        <div class="photo-card">
+          <div class="photo-icon"><svg><use href="#i-two-buildings"/></svg></div>
+          <div class="photo-content">
+            <div class="photo-title">Two Buildings</div>
+            <div class="photo-rules"><span class="rule">Must include bottom and up to four stories.</span></div>
+          </div>
+        </div>
+        <div class="photo-card">
+          <div class="photo-icon"><svg><use href="#i-restaurant"/></svg></div>
+          <div class="photo-content">
+            <div class="photo-title">Restaurant Interior</div>
+            <div class="photo-rules">
+              <span class="rule">No zoom.</span>
+              <span class="rule">Take the picture through the window from outside the restaurant.</span>
+            </div>
+          </div>
+        </div>
+        <div class="photo-card">
+          <div class="photo-icon"><svg><use href="#i-train-platform"/></svg></div>
+          <div class="photo-content">
+            <div class="photo-title">Train Platform</div>
+            <div class="photo-rules"><span class="rule">Must include a 2 m × 2 m section with three distinct elements.</span></div>
+          </div>
+        </div>
+        <div class="photo-card">
+          <div class="photo-icon"><svg><use href="#i-park"/></svg></div>
+          <div class="photo-content">
+            <div class="photo-title">Park</div>
+            <div class="photo-rules">
+              <span class="rule">No zoom, phone perpendicular to ground.</span>
+              <span class="rule">Must stand 2 m from any obstruction.</span>
+            </div>
+          </div>
+        </div>
+        <div class="photo-card">
+          <div class="photo-icon"><svg><use href="#i-grocery"/></svg></div>
+          <div class="photo-content">
+            <div class="photo-title">Grocery Store Aisle</div>
+            <div class="photo-rules">
+              <span class="rule">No zoom.</span>
+              <span class="rule">Stand at the end of the aisle, shoot directly down.</span>
+            </div>
+          </div>
+        </div>
+        <div class="photo-card">
+          <div class="photo-icon"><svg><use href="#i-worship"/></svg></div>
+          <div class="photo-content">
+            <div class="photo-title">Place of Worship</div>
+            <div class="photo-rules"><span class="rule">Must include a 2 m × 2 m section with three distinct elements.</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  Unofficial Reference <span class="dot"></span> Medium Game <span class="dot"></span> Personal Use
+</footer>
+
+<nav class="quick-nav" aria-label="Quick navigation">
+  <button class="quick-nav-btn" data-jump="cat-1" style="--cat-color: var(--matching);" aria-label="Matching"><svg><use href="#i-matching"/></svg></button>
+  <button class="quick-nav-btn" data-jump="cat-2" style="--cat-color: var(--measuring);" aria-label="Measuring"><svg><use href="#i-measuring"/></svg></button>
+  <button class="quick-nav-btn" data-jump="cat-3" style="--cat-color: var(--thermometer);" aria-label="Thermometer"><svg><use href="#i-thermometer"/></svg></button>
+  <button class="quick-nav-btn" data-jump="cat-4" style="--cat-color: var(--radar);" aria-label="Radar"><svg><use href="#i-radar"/></svg></button>
+  <button class="quick-nav-btn" data-jump="cat-5" style="--cat-color: var(--tentacles);" aria-label="Tentacles"><svg><use href="#i-tentacles"/></svg></button>
+  <button class="quick-nav-btn" data-jump="cat-6" style="--cat-color: var(--photos);" aria-label="Photos"><svg><use href="#i-photos"/></svg></button>
+</nav>
+
+<script>
+document.querySelectorAll('[data-jump]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const target = document.getElementById(btn.dataset.jump);
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+});
+</script>
+
+</body>
+</html>
